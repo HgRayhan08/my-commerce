@@ -13,6 +13,9 @@ import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 
 const firestore = getFirestore(app);
 const auth = getAuth(app);
+interface BooleanCallback {
+  (status: boolean): void;
+}
 
 // get all data
 export async function retrieveData(collactionName: string) {
@@ -39,8 +42,8 @@ export async function register(
     phone: number;
     role?: string;
   },
-  callback: Function
-) {
+  callback: BooleanCallback
+): Promise<void> {
   //Perintah untuk mengecek akun sudah terdaftar atau belum;
   const q = query(
     collection(firestore, "users"),
@@ -56,7 +59,7 @@ export async function register(
   }));
 
   if (data.length > 0) {
-    callback({ status: false });
+    callback(false);
   } else {
     // register akun (auth)
     const userCredectial = await createUserWithEmailAndPassword(
