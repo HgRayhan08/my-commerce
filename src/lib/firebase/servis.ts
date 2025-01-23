@@ -74,12 +74,8 @@ export async function register(
       userData.role = "member";
     }
     // register firebase firestore;
-    await setDoc(doc(firestore, "users", user.uid), userData)
-      .then(() => {
-        callback(true);
-      })
-      .catch((error) => {
-        callback(false);
-      });
+    await setDoc(doc(firestore, "users", user.uid), userData).then(() => {
+      callback(true);
+    });
   }
 }
