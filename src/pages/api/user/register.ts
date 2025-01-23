@@ -7,6 +7,7 @@ export default async function handler(
 ) {
   if (req.method == "POST") {
     await register(req.body, (status: boolean) => {
+      console.log(status);
       if (status == true) {
         res
           .status(200)

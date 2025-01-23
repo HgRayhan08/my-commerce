@@ -31,8 +31,6 @@ export async function retrieveDataById(collactionName: string, id: string) {
   return data;
 }
 
-export async function Login(email: string, password: string) {}
-
 export async function register(
   userData: {
     email: string;
@@ -66,6 +64,7 @@ export async function register(
       userData.email,
       userData.password
     );
+
     const user = userCredectial.user;
 
     if (!userData.role) {
@@ -77,7 +76,6 @@ export async function register(
         callback(true);
       })
       .catch((error) => {
-        console.log(error);
         callback(false);
       });
   }
