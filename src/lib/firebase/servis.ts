@@ -6,12 +6,11 @@ import {
   getFirestore,
   query,
   where,
-  setDoc,
   addDoc,
 } from "firebase/firestore";
 import bcrypt from "bcrypt";
 import app from "./init";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+// import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 
 const firestore = getFirestore(app);
 

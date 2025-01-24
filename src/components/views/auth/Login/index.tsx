@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
