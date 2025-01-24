@@ -7,12 +7,16 @@ import {
   query,
   where,
   setDoc,
+  addDoc,
 } from "firebase/firestore";
+import bcrypt from "bcrypt";
 import app from "./init";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 
 const firestore = getFirestore(app);
-const auth = getAuth(app);
+
+// const auth = getAuth(app);
+
 interface BooleanCallback {
   (status: boolean): void;
 }
@@ -62,20 +66,42 @@ export async function register(
     callback(false);
   } else {
     // register akun (auth)
-    const userCredectial = await createUserWithEmailAndPassword(
-      auth,
-      userData.email,
-      userData.password
-    );
+    // const userCredectial = await createUserWithEmailAndPassword(
+    //   auth,
+    //   userData.email,
+    //   userData.password
+    // );
 
-    const user = userCredectial.user;
+    // const user = userCredectial.user;
 
     if (!userData.role) {
       userData.role = "member";
     }
+    userData.password = await bcrypt.hash(userData.password, 10);
     // register firebase firestore;
-    await setDoc(doc(firestore, "users", user.uid), userData).then(() => {
+    // await addDoc(collection(firestore, "users"), userData).then(() => {
+    //   callback(true);
+    // });
+
+    await addDoc(collection(firestore, "users"), userData).then(() => {
       callback(true);
     });
+  }
+}
+
+export async function login(email: string) {
+  const q = query(collection(firestore, "users"), where("email", "==", email));
+
+  //mengeksekusi variable diatas;
+  const snapshot = await getDocs(q);
+
+  const data = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  if (data) {
+    return data[0];
+  } else {
+    return null;
   }
 }
